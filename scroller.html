@@ -36,10 +36,11 @@
               ctx.lineTo(x + 1, y + 1);
 
               // draw reference circle in middle of each tile
-              ctx.font = '12px serif';
+              var fontHeight = parseInt(TILE_SIZE/10);
+              ctx.font = fontHeight + 'px serif';
               var xyText = '(' + x + ', ' + y + ')';
               var textMetrics = ctx.measureText(xyText); // TextMetrics object
-              ctx.fillText(xyText, x + TILE_SIZE/2 - textMetrics.width/2, y + TILE_SIZE/2 + 6);
+              ctx.fillText(xyText, x + TILE_SIZE/2 - textMetrics.width/2, y + TILE_SIZE/2 + fontHeight/2);
               
               ctx.stroke();
             }
