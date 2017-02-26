@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!–  Standalone scrolling canvas example –>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Scrolling Canvas</title>
+    <script type="text/javascript">
+      function draw() {
+        var canvas = document.getElementById('scroller');
+        var canvasWidth = canvas.width;
+        var canvasHeight = canvas.height;
+        var TILE_SIZE = 100;
+        if (canvas.getContext) {
+          var ctx = canvas.getContext('2d');
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          var tileSize = document.querySelector('#tileSize').value;
+          TILE_SIZE = parseInt(tileSize);
+          for (var x = 0; x <= canvasWidth; x += TILE_SIZE) {
+            for (var y = 0; y <= canvasHeight; y += TILE_SIZE) {
+
+              // Randomly generate links to neighbors, in a way that is consistent with neigbhors
+              // var topSeed = y * TILE_SIZE + x + (TILE_SIZE/2);
+              // var topLink = Boolean(cheesyRandom(topSeed) < FILL_FACTOR);
+
+              //
+              //  Draw the network within the tile with top-left corner at x,y
+              //
+              ctx.beginPath();
+            
+              ctx.strokeStyle = '#0000AA';
+
+              ctx.moveTo(x + 1, y + 1);
+              ctx.lineTo(x + TILE_SIZE - 1, y + 1);
+              ctx.lineTo(x + TILE_SIZE - 1, y + TILE_SIZE - 1);
+              ctx.lineTo(x + 1, y + TILE_SIZE - 1);
+              ctx.lineTo(x + 1, y + 1);
+
+              // draw reference circle in middle of each tile
+              ctx.font = '12px serif';
+              var xyText = '(' + x + ', ' + y + ')';
+              var textMetrics = ctx.measureText(xyText); // TextMetrics object
+              ctx.fillText(xyText, x + TILE_SIZE/2 - textMetrics.width/2, y + TILE_SIZE/2 + 6);
+              
+              ctx.stroke();
+            }
+          }
+        }
+      }
+
+
+      function outputUpdate(val) {
+        document.querySelector('#tileSize').value = val;
+        draw();
+      }
+
+      // low-budget 'random' generator
+      // found this on Stack Overflow
+      function cheesyRandom(seed) {
+          var x = Math.sin(seed) * 1000000;
+          return x - Math.floor(x);
+      }
+
+    </script>
+    <style type="text/css">
+      canvas { border: 1px solid black; }
+    </style>
+  </head>
+  <body onload="draw();">
+    <canvas id="scroller" width="860" height="590"></canvas>
+   
+    <label for="fader">TileSize</label>
+    <input type="range" min="40" max="150" value="100" id="fader" 
+      step="1" oninput="outputUpdate(value)">
+    <output for="fader" id="tileSize">100</output>
+
+  </body>
+</html>
