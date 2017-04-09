@@ -15,9 +15,11 @@
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           var tileSize = document.querySelector('#tileSize').value;
           TILE_SIZE = parseInt(tileSize);
-          for (var x = 0; x <= canvasWidth; x += TILE_SIZE) {
-            for (var y = 0; y <= canvasHeight; y += TILE_SIZE) {
+          for (var i = 0; i*TILE_SIZE <= canvasWidth; i += 1) {
+            for (var j = 0; j*TILE_SIZE <= canvasHeight; j += 1) {
 
+              var x = i * TILE_SIZE;
+              var y = j * TILE_SIZE;
               // Randomly generate links to neighbors, in a way that is consistent with neigbhors
               // var topSeed = y * TILE_SIZE + x + (TILE_SIZE/2);
               // var topLink = Boolean(cheesyRandom(topSeed) < FILL_FACTOR);
@@ -38,9 +40,9 @@
               // draw reference circle in middle of each tile
               var fontHeight = parseInt(TILE_SIZE/10);
               ctx.font = fontHeight + 'px serif';
-              var xyText = '(' + x + ', ' + y + ')';
-              var textMetrics = ctx.measureText(xyText); // TextMetrics object
-              ctx.fillText(xyText, x + TILE_SIZE/2 - textMetrics.width/2, y + TILE_SIZE/2 + fontHeight/2);
+              var tileLabel = '(' + i + ', ' + j + ')';
+              var textMetrics = ctx.measureText(tileLabel); // TextMetrics object
+              ctx.fillText(tileLabel, x + TILE_SIZE/2 - textMetrics.width/2, y + TILE_SIZE/2 + fontHeight/2);
               
               ctx.stroke();
             }
